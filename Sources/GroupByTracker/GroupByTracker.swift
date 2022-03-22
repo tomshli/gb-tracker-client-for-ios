@@ -9,7 +9,7 @@ public struct GroupByTracker {
     }
     
     public func test(_ date: Date) -> String? {
-        return self.clientId + " "  + (convertFromDate(date) ?? "*no date*");
+        return self.clientId + " changed "  + (convertFromDate(date) ?? "*no date*");
     }
     
     func convertFromDate(_ date: Date) -> String? {
