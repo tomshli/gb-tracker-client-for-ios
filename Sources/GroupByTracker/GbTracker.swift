@@ -1,31 +1,35 @@
 import Foundation
+import UIKit
 
-public struct GbTracker {
-    public private(set) var text = "Hello, World!"
-    public var clientId = ""
-
-    public init(clientId: String) {
-        self.clientId = clientId;
-    }
+public class GbTracker {
+    public var clientId: String
+    public var area: String
+    public var urlPrefixOverride: String?
     
-    public func test(_ date: Date) -> String? {
-        return self.clientId + " changed "  + (convertFromDate(date) ?? "*no date*");
-    }
+    private var customer: Customer
+    private var shopperTracking: ShopperTracking
+    private var nativeAppClient: NativeAppClient
     
-    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon) {
+    public init(clientId: String, area: String, login: Login = Login(loggedIn: false, username: nil), urlPrefixOverride: String? = nil) {
+        self.clientId = clientId
+        self.area = area
+        self.urlPrefixOverride = urlPrefixOverride
         
+        self.customer = Customer(area: self.clientId, id: self.area)
+        self.shopperTracking = ShopperTracking(login: login, visitorID: UUID().uuidString)
+        self.nativeAppClient = NativeAppClient(appId: Bundle.main.bundleIdentifier ?? "", lang: Locale.preferredLanguages[0], model: UIDevice.current.modelName, platform: Platform.ios)
     }
     
-    func convertFromDate(_ date: Date) -> String? {
-        let formatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = Configuration.dateFormat
-            formatter.calendar = NSCalendar(calendarIdentifier: .gregorian)! as Calendar
-            formatter.timeZone = TimeZone.current
-            return formatter
-        }()
-
-        let date = formatter.string(from: date)
-        return date
+    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon) -> String? {
+        return addToCartBeacon.event.googleAttributionToken ?? "*googleAttributionToken*" + " " + self.nativeAppClient.appId
+    }
+    
+    public func setLogin(login: Login)
+    {
+        self.shopperTracking.login = login
+    }
+    
+    public func getLogin() -> Login {
+        return self.shopperTracking.login
     }
 }

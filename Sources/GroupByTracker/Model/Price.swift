@@ -14,12 +14,12 @@ import Foundation
 // MARK: - Price
 public struct Price: Codable, Hashable {
     /// The price the customer would pay (if viewing) or paid (for order events) for the product.
-    public let actual: String
+    public var actual: String
     /// The ISO 4217 code of the currency for the product.
-    public let currency: String
-    public let onSale: Bool
+    public var currency: String
+    public var onSale: Bool
     /// The regular price of the product (when it is not on sale).
-    public let regular: String?
+    public var regular: String?
 
     public init(actual: String, currency: String, onSale: Bool, regular: String?) {
         self.actual = actual

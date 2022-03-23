@@ -20,15 +20,15 @@ import Foundation
 /// native app SDK.
 // MARK: - OrderBeacon
 public struct OrderBeacon: Codable, Hashable {
-    public let client: NativeAppClient
-    public let customer: Customer
-    public let event: OrderEvent
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    var client: NativeAppClient
+    var customer: Customer
+    public var event: OrderEvent
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: OrderEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: OrderEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -41,7 +41,7 @@ public struct OrderBeacon: Codable, Hashable {
 
 // MARK: OrderBeacon convenience initializers and mutators
 
-public extension OrderBeacon {
+extension OrderBeacon {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(OrderBeacon.self, from: data)
     }

@@ -23,10 +23,10 @@ public struct AutoSearchEvent: Codable, Hashable {
     /// "navigation" (used when no search query is used because the search engine is being used
     /// to power a PLP consisting of a category of products, often after a shopper has selected a
     /// facet).
-    public let origin: Origin
+    public var origin: Origin
     /// The ID of the search performed with the GroupBy search engine API. This ID is returned in
     /// each HTTP response from the API and must be included in this event.
-    public let searchID: String
+    public var searchID: String
 
     enum CodingKeys: String, CodingKey {
         case origin

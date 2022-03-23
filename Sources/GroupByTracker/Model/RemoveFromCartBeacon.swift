@@ -20,15 +20,15 @@ import Foundation
 /// major version of the native app SDK.
 // MARK: - RemoveFromCartBeacon
 public struct RemoveFromCartBeacon: Codable, Hashable {
-    public let client: NativeAppClient
-    public let customer: Customer
-    public let event: RemoveFromCartEvent
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    var client: NativeAppClient
+    var customer: Customer
+    public var event: RemoveFromCartEvent
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: RemoveFromCartEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: RemoveFromCartEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -41,7 +41,7 @@ public struct RemoveFromCartBeacon: Codable, Hashable {
 
 // MARK: RemoveFromCartBeacon convenience initializers and mutators
 
-public extension RemoveFromCartBeacon {
+extension RemoveFromCartBeacon {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(RemoveFromCartBeacon.self, from: data)
     }

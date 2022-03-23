@@ -20,9 +20,9 @@ import Foundation
 // MARK: - Metadata
 public struct Metadata: Codable, Hashable {
     /// The metadata item's key.
-    public let key: String
+    public var key: String
     /// The metadata item's value.
-    public let value: String
+    public var value: String
 
     public init(key: String, value: String) {
         self.key = key

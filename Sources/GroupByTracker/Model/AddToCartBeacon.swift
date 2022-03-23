@@ -20,15 +20,15 @@ import Foundation
 /// native app SDK.
 // MARK: - AddToCartBeacon
 public struct AddToCartBeacon: Codable, Hashable {
-    public let client: NativeAppClient
-    public let customer: Customer
-    public let event: AddToCartEvent
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    var client: NativeAppClient
+    var customer: Customer
+    public var event: AddToCartEvent
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: AddToCartEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: AddToCartEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -36,6 +36,16 @@ public struct AddToCartBeacon: Codable, Hashable {
         self.metadata = metadata
         self.shopper = shopper
         self.time = time
+    }
+    
+    public init(event: AddToCartEvent, experiments: [Experiments]?, metadata: [Metadata]?) {
+        self.client = NativeAppClient()
+        self.customer = Customer()
+        self.event = event
+        self.experiments = experiments
+        self.metadata = metadata
+        self.shopper = ShopperTracking()
+        self.time = Date()
     }
 }
 
@@ -57,7 +67,7 @@ public extension AddToCartBeacon {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func with(
+    internal func with(
         client: NativeAppClient? = nil,
         customer: Customer? = nil,
         event: AddToCartEvent? = nil,
@@ -74,6 +84,18 @@ public extension AddToCartBeacon {
             metadata: metadata ?? self.metadata,
             shopper: shopper ?? self.shopper,
             time: time ?? self.time
+        )
+    }
+    
+    func with(
+        event: AddToCartEvent? = nil,
+        experiments: [Experiments]?? = nil,
+        metadata: [Metadata]?? = nil
+    ) -> AddToCartBeacon {
+        return AddToCartBeacon(
+            event: event ?? self.event,
+            experiments: experiments ?? self.experiments,
+            metadata: metadata ?? self.metadata
         )
     }
 

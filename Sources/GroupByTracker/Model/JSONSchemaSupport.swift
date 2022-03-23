@@ -67,7 +67,7 @@ class JSONCodingKey: CodingKey {
 
 public class JSONAny: Codable {
 
-    public let value: Any
+    public var value: Any
 
     static func decodingError(forCodingPath codingPath: [CodingKey]) -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode JSONAny")

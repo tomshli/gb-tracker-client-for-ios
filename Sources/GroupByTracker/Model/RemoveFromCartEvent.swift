@@ -13,8 +13,8 @@ import Foundation
 /// The event data for a removeFromCart event.
 // MARK: - RemoveFromCartEvent
 public struct RemoveFromCartEvent: Codable, Hashable {
-    public let cart: Cart
-    public let googleAttributionToken: String?
+    public var cart: Cart
+    public var googleAttributionToken: String?
 
     public init(cart: Cart, googleAttributionToken: String?) {
         self.cart = cart

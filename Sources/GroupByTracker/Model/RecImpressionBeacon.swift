@@ -23,15 +23,15 @@ import Foundation
 /// with respect to correct usage of the corresponding major version of the native app SDK.
 // MARK: - RecImpressionBeacon
 public struct RecImpressionBeacon: Codable, Hashable {
-    public let client: NativeAppClient
-    public let customer: Customer
-    public let event: RecImpressionEvent
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    var client: NativeAppClient
+    var customer: Customer
+    public var event: RecImpressionEvent
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: RecImpressionEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: RecImpressionEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -44,7 +44,7 @@ public struct RecImpressionBeacon: Codable, Hashable {
 
 // MARK: RecImpressionBeacon convenience initializers and mutators
 
-public extension RecImpressionBeacon {
+extension RecImpressionBeacon {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(RecImpressionBeacon.self, from: data)
     }

@@ -13,8 +13,8 @@ import Foundation
 /// The event data for an order event.
 // MARK: - OrderEvent
 public struct OrderEvent: Codable, Hashable {
-    public let cart: Cart
-    public let googleAttributionToken: String?
+    public var cart: Cart
+    public var googleAttributionToken: String?
 
     public init(cart: Cart, googleAttributionToken: String?) {
         self.cart = cart

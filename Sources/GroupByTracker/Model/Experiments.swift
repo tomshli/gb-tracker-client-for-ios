@@ -28,13 +28,13 @@ import Foundation
 public struct Experiments: Codable, Hashable {
     /// The ID (aka name) for the experiment. There should be one name shared by two or more
     /// variants.
-    public let experimentID: String
+    public var experimentID: String
     /// The variant (aka bucket) of the experiment active for this event. There should be at
     /// least two experiment variants for each experiment ID across all beacon data (otherwise
     /// there would be no comparison to make) and there should be only one experiment variant for
     /// each experiment ID in a single beacon (because it is invalid for an event to belong to
     /// more than one experiment bucket at a time).
-    public let experimentVariant: String
+    public var experimentVariant: String
 
     enum CodingKeys: String, CodingKey {
         case experimentID = "experimentId"

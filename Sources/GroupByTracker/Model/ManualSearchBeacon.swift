@@ -25,17 +25,17 @@ import Foundation
 /// native app SDK.
 // MARK: - ManualSearchBeacon
 public struct ManualSearchBeacon: Codable {
-    public let client: NativeAppClient
-    public let customer: Customer
+    var client: NativeAppClient
+    var customer: Customer
     /// The event data. This can be any JSON object. GroupBy will provide instructions for what
     /// to serialize into this JSON object if you are instructed to implement this event.
-    public let event: [String: JSONAny]
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    public var event: [String: JSONAny]
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: [String: JSONAny], experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: [String: JSONAny], experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -48,7 +48,7 @@ public struct ManualSearchBeacon: Codable {
 
 // MARK: ManualSearchBeacon convenience initializers and mutators
 
-public extension ManualSearchBeacon {
+extension ManualSearchBeacon {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(ManualSearchBeacon.self, from: data)
     }

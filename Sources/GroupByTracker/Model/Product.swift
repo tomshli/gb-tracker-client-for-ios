@@ -15,18 +15,18 @@ import Foundation
 // MARK: - Product
 public struct Product: Codable, Hashable {
     /// The category of the product in GroupBy's systems after it has been uploaded to GroupBy.
-    public let category: String?
+    public var category: String?
     /// The collection the product belongs to in GroupBy's systems after it has been uploaded to
     /// GroupBy.
-    public let collection: String?
+    public var collection: String?
     /// The product's ID in the GroupBy customer's system.
-    public let id: String
-    public let price: Price
+    public var id: String
+    public var price: Price
     /// The product's SKU in the GroupBy customer's system.
-    public let sku: String?
+    public var sku: String?
     /// The product's title. This is used in GroupBy UIs that render information about the
     /// product.
-    public let title: String
+    public var title: String
 
     public init(category: String?, collection: String?, id: String, price: Price, sku: String?, title: String) {
         self.category = category

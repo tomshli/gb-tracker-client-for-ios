@@ -21,15 +21,15 @@ import Foundation
 /// version of the native app SDK.
 // MARK: - ViewProductBeacon
 public struct ViewProductBeacon: Codable, Hashable {
-    public let client: NativeAppClient
-    public let customer: Customer
-    public let event: ViewProductEvent
-    public let experiments: [Experiments]?
-    public let metadata: [Metadata]?
-    public let shopper: ShopperTracking
-    public let time: Date
+    var client: NativeAppClient
+    var customer: Customer
+    public var event: ViewProductEvent
+    public var experiments: [Experiments]?
+    public var metadata: [Metadata]?
+    var shopper: ShopperTracking
+    var time: Date
 
-    public init(client: NativeAppClient, customer: Customer, event: ViewProductEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
+    init(client: NativeAppClient, customer: Customer, event: ViewProductEvent, experiments: [Experiments]?, metadata: [Metadata]?, shopper: ShopperTracking, time: Date) {
         self.client = client
         self.customer = customer
         self.event = event
@@ -42,7 +42,7 @@ public struct ViewProductBeacon: Codable, Hashable {
 
 // MARK: ViewProductBeacon convenience initializers and mutators
 
-public extension ViewProductBeacon {
+extension ViewProductBeacon {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(ViewProductBeacon.self, from: data)
     }

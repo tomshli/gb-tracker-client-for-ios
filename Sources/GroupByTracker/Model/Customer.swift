@@ -12,22 +12,27 @@ import Foundation
 
 /// Contains data about the GroupBy customer sending the beacons.
 // MARK: - Customer
-public struct Customer: Codable, Hashable {
+struct Customer: Codable, Hashable {
     /// The customer's area.
-    public let area: String
+    public var area: String
     /// The customer's customer ID. Must be alphanumeric and must start with an alphabetic
     /// character.
-    public let id: String
+    public var id: String
 
     public init(area: String, id: String) {
         self.area = area
         self.id = id
     }
+    
+    init() {
+        self.area = ""
+        self.id = ""
+    }
 }
 
 // MARK: Customer convenience initializers and mutators
 
-public extension Customer {
+extension Customer {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(Customer.self, from: data)
     }

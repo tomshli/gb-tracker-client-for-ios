@@ -14,13 +14,13 @@ import Foundation
 /// involving carts.
 // MARK: - CartItem
 public struct CartItem: Codable, Hashable {
-    public let product: Product
+    public var product: Product
     /// The quantity of this product added to the cart, removed from the cart, or ordered,
     /// depending on the event type. Note that this should not be the number of items in the cart
     /// after the operation the shopper is performing is finished. For example, if the event type
     /// is addToCart, and the shopper started with 2 items in the cart, then added 1 more, the
     /// quantity in the addToCart event should be set to 1, not 3.
-    public let quantity: Int
+    public var quantity: Int
 
     public init(product: Product, quantity: Int) {
         self.product = product

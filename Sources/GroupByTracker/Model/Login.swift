@@ -14,13 +14,18 @@ import Foundation
 // MARK: - Login
 public struct Login: Codable, Hashable {
     /// Whether the shopper was logged in the event in this beacon occured.
-    public let loggedIn: Bool
+    public var loggedIn: Bool
     /// The shopper's username in the GroupBy customer's system.
-    public let username: String?
+    public var username: String?
 
     public init(loggedIn: Bool, username: String?) {
         self.loggedIn = loggedIn
         self.username = username
+    }
+    
+    init() {
+        self.loggedIn = false
+        self.username = nil
     }
 }
 

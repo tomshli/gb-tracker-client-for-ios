@@ -14,9 +14,9 @@ import Foundation
 /// how this is anonymous tracking as opposed to tracking that infringes on the privacy of
 /// the shopper.
 // MARK: - ShopperTracking
-public struct ShopperTracking: Codable, Hashable {
+struct ShopperTracking: Codable, Hashable {
     /// Data about the shopper's logged in/logged out status.
-    public let login: Login
+    public var login: Login
     /// The shopper's visitor ID, which uniquely identifies their client (ex. their web browser
     /// or their install of a native app). It should expire one year after the most recent
     /// activity from the shopper on that particular client. To ensure the shopper isn't tracked
@@ -26,7 +26,7 @@ public struct ShopperTracking: Codable, Hashable {
     /// appropriate time by code written by the GroupBy customer, or a GroupBy SDK can be used to
     /// send requests to the API using this schema, in which case details related to generating
     /// and expiring the value are taken care of for the GroupBy customer.
-    public let visitorID: String
+    public var visitorID: String
 
     enum CodingKeys: String, CodingKey {
         case login
@@ -37,11 +37,16 @@ public struct ShopperTracking: Codable, Hashable {
         self.login = login
         self.visitorID = visitorID
     }
+    
+    init() {
+        self.login = Login()
+        self.visitorID = ""
+    }
 }
 
 // MARK: ShopperTracking convenience initializers and mutators
 
-public extension ShopperTracking {
+extension ShopperTracking {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(ShopperTracking.self, from: data)
     }

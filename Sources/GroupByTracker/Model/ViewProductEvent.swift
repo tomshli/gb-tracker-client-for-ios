@@ -13,8 +13,8 @@ import Foundation
 /// The event data for a viewProduct event.
 // MARK: - ViewProductEvent
 public struct ViewProductEvent: Codable, Hashable {
-    public let googleAttributionToken: String?
-    public let product: Product
+    public var googleAttributionToken: String?
+    public var product: Product
 
     public init(googleAttributionToken: String?, product: Product) {
         self.googleAttributionToken = googleAttributionToken

@@ -13,12 +13,12 @@ import Foundation
 /// The event data for a recImpression event.
 // MARK: - RecImpressionEvent
 public struct RecImpressionEvent: Codable, Hashable {
-    public let googleAttributionToken: String?
+    public var googleAttributionToken: String?
     /// The products the shopper witnessed during the event. It's valid for it to be just one
     /// product (ex. a prompt for them to add a particular product to their cart) and also
     /// multiple products (ex. a carousel of product recommendations displayed as they scroll
     /// down a PLP).
-    public let products: [Product]
+    public var products: [Product]
 
     public init(googleAttributionToken: String?, products: [Product]) {
         self.googleAttributionToken = googleAttributionToken

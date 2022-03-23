@@ -14,11 +14,11 @@ import Foundation
 // MARK: - Cart
 public struct Cart: Codable, Hashable {
     /// The cart items in the cart.
-    public let items: [CartItem]
+    public var items: [CartItem]
     /// The cart's type. A freeform text field that can be used by the GroupBy customer to
     /// indicate what kind of cart products were added to, removed from, or ordered from.
     /// Example: "wedding registry".
-    public let type: String?
+    public var type: String?
 
     public init(items: [CartItem], type: String?) {
         self.items = items
