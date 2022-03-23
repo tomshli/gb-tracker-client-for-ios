@@ -1,6 +1,6 @@
 import Foundation
 
-public struct GroupByTracker {
+public struct GbTracker {
     public private(set) var text = "Hello, World!"
     public var clientId = ""
 
@@ -10,6 +10,10 @@ public struct GroupByTracker {
     
     public func test(_ date: Date) -> String? {
         return self.clientId + " changed "  + (convertFromDate(date) ?? "*no date*");
+    }
+    
+    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon) {
+        
     }
     
     func convertFromDate(_ date: Date) -> String? {

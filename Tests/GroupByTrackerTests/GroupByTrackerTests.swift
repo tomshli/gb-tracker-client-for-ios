@@ -6,6 +6,6 @@ final class GroupByTrackerTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(GroupByTracker(clientId: "test").text, "Hello, World!")
+        XCTAssertEqual(GbTracker(clientId: "test").text, "Hello, World!")
     }
 }
