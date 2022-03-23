@@ -21,7 +21,7 @@ public class GbTracker {
     }
     
     public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon) -> String? {
-        return addToCartBeacon.event.googleAttributionToken ?? "*googleAttributionToken*" + " " + self.nativeAppClient.appId
+        return (addToCartBeacon.event.googleAttributionToken ?? "*googleAttributionToken*") + " " + self.nativeAppClient.appId
     }
     
     public func setLogin(login: Login)
