@@ -20,8 +20,8 @@ public class GbTracker {
         self.nativeAppClient = NativeAppClient(appId: Bundle.main.bundleIdentifier ?? "", lang: Locale.preferredLanguages[0], model: UIDevice.current.modelName, platform: Platform.ios)
     }
     
-    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon) -> String? {
-        return (addToCartBeacon.event.googleAttributionToken ?? "*googleAttributionToken*") + " " + self.nativeAppClient.appId
+    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
+        return GroupByAPI.addToCartPost(addToCartBeacon: addToCartBeacon, completion: completion)
     }
     
     public func setLogin(login: Login)
