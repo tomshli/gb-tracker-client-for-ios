@@ -30,6 +30,10 @@ public class GbTracker {
     }
     
     public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
+        addToCartBeacon.customer = self.customer
+        addToCartBeacon.client = self.nativeAppClient
+        addToCartBeacon.shopper = self.shopperTracking
+        addToCartBeacon.time = Date()
         return GroupByAPI.addToCartPost(addToCartBeacon: addToCartBeacon, completion: completion)
     }
     

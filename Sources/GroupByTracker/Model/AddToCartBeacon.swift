@@ -19,7 +19,7 @@ import Foundation
 /// incompatible with respect to correct usage of the corresponding major version of the
 /// native app SDK.
 // MARK: - AddToCartBeacon
-public struct AddToCartBeacon: Codable, Hashable {
+public class AddToCartBeacon: Codable {
     var client: NativeAppClient
     var customer: Customer
     public var event: AddToCartEvent
@@ -52,18 +52,19 @@ public struct AddToCartBeacon: Codable, Hashable {
 // MARK: AddToCartBeacon convenience initializers and mutators
 
 public extension AddToCartBeacon {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(AddToCartBeacon.self, from: data)
+    convenience init(data: Data) throws {
+        let me  = try newJSONDecoder().decode(AddToCartBeacon.self, from: data)
+        self.init(client: me.client, customer: me.customer, event: me.event, experiments: me.experiments, metadata: me.metadata, shopper: me.shopper, time: me.time)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
