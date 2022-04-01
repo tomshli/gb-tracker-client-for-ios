@@ -179,7 +179,26 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+            if (httpResponse.isStatusCode400)
+            {
+                guard let data = data, !data.isEmpty else {
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+                    return
+                }
+
+                let decodeResult = CodableHelper.decode(GbError.self, from: data)
+
+                switch decodeResult {
+                case let .success(decodableObj):
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.gbError(decodableObj))))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+                }
+            }
+            else
+            {
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+            }
             return
         }
 

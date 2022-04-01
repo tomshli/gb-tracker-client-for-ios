@@ -182,4 +182,8 @@ extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
         return Array(200 ..< 300).contains(statusCode)
     }
+    
+    var isStatusCode400: Bool {
+        return statusCode == 400
+    }
 }

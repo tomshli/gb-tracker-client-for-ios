@@ -51,7 +51,7 @@ public class GbTracker {
         self.shopperTracking = ShopperTracking(login: login, visitorID: uuid)
     }
     
-    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
+    public func sendAddToCartEvent(addToCartBeacon: AddToCartBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
         addToCartBeacon.customer = self.customer
         addToCartBeacon.client = self.nativeAppClient
         addToCartBeacon.shopper = self.shopperTracking

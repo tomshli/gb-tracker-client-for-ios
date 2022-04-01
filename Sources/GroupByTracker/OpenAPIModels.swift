@@ -25,6 +25,7 @@ enum DecodableRequestBuilderError: Error {
     case unsuccessfulHTTPStatusCode
     case jsonDecoding(DecodingError)
     case generalError(Error)
+    case gbError(GbError)
 }
 
 class Response<T> {
