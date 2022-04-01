@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let gbError = try GbError(json)
+//   let gbErrorDetails = try GbErrorDetails(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -12,8 +12,8 @@ import Foundation
 
 /// The schema for the response body when there is a 400 error because the beacon data was
 /// invalid.
-// MARK: - GbError
-public struct GbError: Codable, Hashable {
+// MARK: - GbErrorDetails
+public struct GbErrorDetails: Codable, Hashable {
     /// The errors encountered while validating the beacon according to the request body JSON
     /// Schemas.
     public var jsonSchemaValidationErrors: [String]
@@ -23,11 +23,11 @@ public struct GbError: Codable, Hashable {
     }
 }
 
-// MARK: GbError convenience initializers and mutators
+// MARK: GbErrorDetails convenience initializers and mutators
 
-public extension GbError {
+public extension GbErrorDetails {
     init(data: Data) throws {
-        let me = try newJSONDecoder().decode(GbError.self, from: data)
+        let me = try newJSONDecoder().decode(GbErrorDetails.self, from: data)
         self.init(jsonSchemaValidationErrors: me.jsonSchemaValidationErrors)
     }
 
@@ -44,8 +44,8 @@ public extension GbError {
 
     func with(
         jsonSchemaValidationErrors: [String]? = nil
-    ) -> GbError {
-        return GbError(
+    ) -> GbErrorDetails {
+        return GbErrorDetails(
             jsonSchemaValidationErrors: jsonSchemaValidationErrors ?? self.jsonSchemaValidationErrors
         )
     }

@@ -90,7 +90,7 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, GbError>) -> Void) {
         let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -161,20 +161,20 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         } catch {
             apiResponseQueue.async {
                 cleanupRequest()
-                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
+                completion(.failure(GbError.error(415, nil)))
             }
         }
     }
 
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, GbError>) -> Void) {
 
         if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, response, error)))
+            completion(.failure(GbError.error(-1, nil, error)))
             return
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(GbError.error(-2, nil)))
             return
         }
 
@@ -182,22 +182,22 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             if (httpResponse.isStatusCode400)
             {
                 guard let data = data, !data.isEmpty else {
-                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+                    completion(.failure(GbError.error(httpResponse.statusCode, nil)))
                     return
                 }
 
-                let decodeResult = CodableHelper.decode(GbError.self, from: data)
+                let decodeResult = CodableHelper.decode(GbErrorDetails.self, from: data)
 
                 switch decodeResult {
-                case let .success(decodableObj):
-                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.gbError(decodableObj))))
-                case let .failure(error):
-                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+                    case let .success(decodableObj):
+                        completion(.failure(GbError.error(httpResponse.statusCode, decodableObj)))
+                    case let .failure(error):
+                        completion(.failure(GbError.error(httpResponse.statusCode, nil, error)))
                 }
             }
             else
             {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+                completion(.failure(GbError.error(httpResponse.statusCode, nil)))
             }
             return
         }
@@ -240,10 +240,10 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
                 completion(.success(Response(response: httpResponse, body: filePath as? T)))
 
-            } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+            } catch let downloadException as DownloadException {
+                completion(.failure(GbError.error(400, nil, downloadException)))
             } catch {
-                completion(.failure(ErrorResponse.error(400, data, response, error)))
+                completion(.failure(GbError.error(400, nil)))
             }
 
         case is Void.Type:
@@ -326,20 +326,20 @@ class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 }
 
 class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, GbError>) -> Void) {
 
         if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, response, error)))
+            completion(.failure(GbError.error(-1, nil, error)))
             return
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(GbError.error(-2, nil)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+            completion(.failure(GbError.error(httpResponse.statusCode, nil)))
             return
         }
 
@@ -382,9 +382,9 @@ class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<
                 completion(.success(Response(response: httpResponse, body: filePath as? T)))
 
             } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+                completion(.failure(GbError.error(400, nil, requestParserError)))
             } catch {
-                completion(.failure(ErrorResponse.error(400, data, response, error)))
+                completion(.failure(GbError.error(400, nil, error)))
             }
 
         case is Void.Type:
@@ -398,7 +398,7 @@ class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<
         default:
 
             guard let data = data, !data.isEmpty else {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
+                completion(.failure(GbError.error(httpResponse.statusCode, nil)))
                 return
             }
 
@@ -408,7 +408,7 @@ class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, error)))
+                completion(.failure(GbError.error(httpResponse.statusCode, nil, error)))
             }
         }
     }

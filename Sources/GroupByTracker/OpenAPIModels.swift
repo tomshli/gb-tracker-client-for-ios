@@ -7,7 +7,11 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-public enum ErrorResponse: Error {
+public enum GbError: Error {
+    case error(Int, GbErrorDetails?, Error? = nil)
+}
+
+enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }
 
@@ -19,13 +23,13 @@ enum DownloadException: Error {
     case requestMissingURL
 }
 
-public enum DecodableRequestBuilderError: Error {
+enum DecodableRequestBuilderError: Error {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode
     case jsonDecoding(DecodingError)
     case generalError(Error)
-    case gbError(GbError)
+    case gbError(GbErrorDetails)
 }
 
 class Response<T> {

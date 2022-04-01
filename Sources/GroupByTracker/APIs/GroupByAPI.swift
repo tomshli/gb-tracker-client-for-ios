@@ -17,7 +17,7 @@ class GroupByAPI {
     open class func addToCartPost(addToCartBeacon: AddToCartBeacon? = nil, apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, completion: @escaping ((_ error: Error?) -> Void)) {
         addToCartPostWithRequestBuilder(addToCartBeacon: addToCartBeacon).execute(apiResponseQueue) { result in
             switch result {
-            case let .success(response):
+            case let .success(_):
                 completion(nil)
             case let .failure(error):
                 completion(error)

@@ -41,7 +41,7 @@ class RequestBuilder<T> {
         }
     }
 
-    func execute(_ apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
+    func execute(_ apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, GbError>) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
