@@ -19,7 +19,7 @@ import Foundation
 /// made to a major version of this schema if the change would not be backwards incompatible
 /// with respect to correct usage of the corresponding major version of the native app SDK.
 // MARK: - AutoSearchBeacon
-public struct AutoSearchBeacon: Codable, Hashable {
+public class AutoSearchBeacon: Codable {
     var client: NativeAppClient
     var customer: Customer
     public var event: AutoSearchEvent
@@ -52,18 +52,19 @@ public struct AutoSearchBeacon: Codable, Hashable {
 // MARK: AutoSearchBeacon convenience initializers and mutators
 
 public extension AutoSearchBeacon {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(AutoSearchBeacon.self, from: data)
+    convenience init(data: Data) throws {
+        let me = try newJSONDecoder().decode(AutoSearchBeacon.self, from: data)
+        self.init(client: me.client, customer: me.customer, event: me.event, experiments: me.experiments, metadata: me.metadata, shopper: me.shopper, time: me.time)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
