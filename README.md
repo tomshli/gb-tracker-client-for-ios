@@ -31,6 +31,8 @@ tracker.sendAddToCartEvent(addToCartBeacon: atcBeacon) { error in
             return
         }
         
+        // If there are data validation errors, a list of string with the error details will be returned.
+		// If there is a network or any other error, the code will contain the HTTP status code returned.
         switch gbError {
             case .error(let code, let errorDetails, let innerError):
                 guard let errorDetails = errorDetails else {
