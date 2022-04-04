@@ -33,7 +33,7 @@ tracker.sendAddToCartEvent(addToCartBeacon: atcBeacon) { error in
         
         switch gbError {
             case .error(let code, let errorDetails, let innerError):
-            guard let errorDetails = errorDetails else {
+                guard let errorDetails = errorDetails else {
                     // network or other error
                     ...
                     return
