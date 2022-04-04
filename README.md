@@ -20,7 +20,7 @@ let tracker = GbTracker(customerId: "customer_id", area: "area")
 tracker.setLogin(login: Login(loggedIn: true, username: "shopper@example.com"))
 
 // create beacon
-AddToCartBeacon atcBeacon = new AddToCartBeacon(...);
+let atcBeacon = AddToCartBeacon(...)
 
 // send beacon
 tracker.sendAddToCartEvent(addToCartBeacon: atcBeacon) { error in
