@@ -16,7 +16,7 @@ public struct ViewProductEvent: Codable, Hashable {
     public var googleAttributionToken: String?
     public var product: Product
 
-    public init(googleAttributionToken: String?, product: Product) {
+    public init(product: Product, googleAttributionToken: String?) {
         self.googleAttributionToken = googleAttributionToken
         self.product = product
     }
@@ -41,12 +41,12 @@ public extension ViewProductEvent {
     }
 
     func with(
-        googleAttributionToken: String?? = nil,
-        product: Product? = nil
+        product: Product? = nil,
+        googleAttributionToken: String?? = nil
     ) -> ViewProductEvent {
         return ViewProductEvent(
-            googleAttributionToken: googleAttributionToken ?? self.googleAttributionToken,
-            product: product ?? self.product
+            product: product ?? self.product,
+            googleAttributionToken: googleAttributionToken ?? self.googleAttributionToken
         )
     }
 

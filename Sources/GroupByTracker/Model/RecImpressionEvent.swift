@@ -20,7 +20,7 @@ public struct RecImpressionEvent: Codable, Hashable {
     /// down a PLP).
     public var products: [Product]
 
-    public init(googleAttributionToken: String?, products: [Product]) {
+    public init(products: [Product], googleAttributionToken: String?) {
         self.googleAttributionToken = googleAttributionToken
         self.products = products
     }
@@ -45,12 +45,12 @@ public extension RecImpressionEvent {
     }
 
     func with(
-        googleAttributionToken: String?? = nil,
-        products: [Product]? = nil
+        products: [Product]? = nil,
+        googleAttributionToken: String?? = nil
     ) -> RecImpressionEvent {
         return RecImpressionEvent(
-            googleAttributionToken: googleAttributionToken ?? self.googleAttributionToken,
-            products: products ?? self.products
+            products: products ?? self.products,
+            googleAttributionToken: googleAttributionToken ?? self.googleAttributionToken
         )
     }
 
