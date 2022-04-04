@@ -77,7 +77,42 @@ public class GbTracker {
         GroupByAPI.manualSearchPost(manualSearchBeacon: manualSearchBeacon, completion: completion)
         renewUUIDExpiration()
     }
+    
+    public func sendOrderEvent(orderBeacon: OrderBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
+        orderBeacon.customer = self.customer
+        orderBeacon.client = self.nativeAppClient
+        orderBeacon.shopper = self.shopperTracking
+        orderBeacon.time = Date()
+        GroupByAPI.orderPost(orderBeacon: orderBeacon, completion: completion)
+        renewUUIDExpiration()
+    }
 
+    public func sendRecImpressionEvent(recImpressionBeacon: RecImpressionBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
+        recImpressionBeacon.customer = self.customer
+        recImpressionBeacon.client = self.nativeAppClient
+        recImpressionBeacon.shopper = self.shopperTracking
+        recImpressionBeacon.time = Date()
+        GroupByAPI.recImpressionPost(recImpressionBeacon: recImpressionBeacon, completion: completion)
+        renewUUIDExpiration()
+    }
+    
+    public func sendRemoveFromCartEvent(removeFromCartBeacon: RemoveFromCartBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
+        removeFromCartBeacon.customer = self.customer
+        removeFromCartBeacon.client = self.nativeAppClient
+        removeFromCartBeacon.shopper = self.shopperTracking
+        removeFromCartBeacon.time = Date()
+        GroupByAPI.removeFromCartPost(removeFromCartBeacon: removeFromCartBeacon, completion: completion)
+        renewUUIDExpiration()
+    }
+    
+    public func sendViewProductEvent(viewProductBeacon: ViewProductBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
+        viewProductBeacon.customer = self.customer
+        viewProductBeacon.client = self.nativeAppClient
+        viewProductBeacon.shopper = self.shopperTracking
+        viewProductBeacon.time = Date()
+        GroupByAPI.viewProductPost(viewProductBeacon: viewProductBeacon, completion: completion)
+        renewUUIDExpiration()
+    }
     
     private func renewUUIDExpiration() {
         let userDefaults = UserDefaults.standard

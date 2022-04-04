@@ -22,7 +22,7 @@ import Foundation
 /// made to a major version of this schema if the change would not be backwards incompatible
 /// with respect to correct usage of the corresponding major version of the native app SDK.
 // MARK: - RecImpressionBeacon
-public struct RecImpressionBeacon: Codable, Hashable {
+public class RecImpressionBeacon: Codable {
     var client: NativeAppClient
     var customer: Customer
     public var event: RecImpressionEvent
@@ -40,23 +40,34 @@ public struct RecImpressionBeacon: Codable, Hashable {
         self.shopper = shopper
         self.time = time
     }
+    
+    public init(event: RecImpressionEvent, experiments: [Experiments]?, metadata: [Metadata]?) {
+        self.client = NativeAppClient()
+        self.customer = Customer()
+        self.event = event
+        self.experiments = experiments
+        self.metadata = metadata
+        self.shopper = ShopperTracking()
+        self.time = Date()
+    }
 }
 
 // MARK: RecImpressionBeacon convenience initializers and mutators
 
 extension RecImpressionBeacon {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(RecImpressionBeacon.self, from: data)
+    convenience init(data: Data) throws {
+        let me  = try newJSONDecoder().decode(RecImpressionBeacon.self, from: data)
+        self.init(client: me.client, customer: me.customer, event: me.event, experiments: me.experiments, metadata: me.metadata, shopper: me.shopper, time: me.time)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 

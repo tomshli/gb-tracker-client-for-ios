@@ -19,7 +19,7 @@ import Foundation
 /// incompatible with respect to correct usage of the corresponding major version of the
 /// native app SDK.
 // MARK: - OrderBeacon
-public struct OrderBeacon: Codable, Hashable {
+public class OrderBeacon: Codable {
     var client: NativeAppClient
     var customer: Customer
     public var event: OrderEvent
@@ -37,23 +37,34 @@ public struct OrderBeacon: Codable, Hashable {
         self.shopper = shopper
         self.time = time
     }
+    
+    public init(event: OrderEvent, experiments: [Experiments]?, metadata: [Metadata]?) {
+        self.client = NativeAppClient()
+        self.customer = Customer()
+        self.event = event
+        self.experiments = experiments
+        self.metadata = metadata
+        self.shopper = ShopperTracking()
+        self.time = Date()
+    }
 }
 
 // MARK: OrderBeacon convenience initializers and mutators
 
 extension OrderBeacon {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(OrderBeacon.self, from: data)
+    convenience init(data: Data) throws {
+        let me  = try newJSONDecoder().decode(OrderBeacon.self, from: data)
+        self.init(client: me.client, customer: me.customer, event: me.event, experiments: me.experiments, metadata: me.metadata, shopper: me.shopper, time: me.time)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
