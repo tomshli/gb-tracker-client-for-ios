@@ -6,7 +6,7 @@ This is the iOS SDK used to send beacons to GroupBy.
 
 Refer to <a href="https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app" target="_blank">Adding Package Dependencies to Your App</a> article from Apple
 
-## Usage with JitPack
+## Usage with Swift Package Manager
 
 To import and use the tracker:
 
