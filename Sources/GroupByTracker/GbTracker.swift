@@ -69,6 +69,16 @@ public class GbTracker {
         renewUUIDExpiration()
     }
     
+    public func sendManualSearchEvent(manualSearchBeacon: ManualSearchBeacon, completion: @escaping ((_ error: Error?) -> Void)) {
+        manualSearchBeacon.customer = self.customer
+        manualSearchBeacon.client = self.nativeAppClient
+        manualSearchBeacon.shopper = self.shopperTracking
+        manualSearchBeacon.time = Date()
+        GroupByAPI.manualSearchPost(manualSearchBeacon: manualSearchBeacon, completion: completion)
+        renewUUIDExpiration()
+    }
+
+    
     private func renewUUIDExpiration() {
         let userDefaults = UserDefaults.standard
         let now = Date()

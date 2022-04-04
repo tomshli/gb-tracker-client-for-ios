@@ -91,4 +91,46 @@ class GroupByAPI {
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
+    
+    /**
+     - Send manualSearch POST request
+     - parameter manualSearchBeacon: (body) beacon (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func manualSearchPost(manualSearchBeacon: ManualSearchBeacon? = nil, apiResponseQueue: DispatchQueue = gbAPI.apiResponseQueue, completion: @escaping ((_ error: Error?) -> Void)) {
+        manualSearchPostWithRequestBuilder(manualSearchBeacon: manualSearchBeacon).execute(apiResponseQueue) { result in
+            switch result {
+            case .success(_):
+                completion(nil)
+            case let .failure(error):
+                completion(error)
+            }
+        }
+    }
+
+    /**
+     Send manualSearch POST request
+     - POST /manualSearch
+     - Send manualSearch POST request
+     - parameter manualSearchBeacon: (body) beacon (optional)
+     - returns: RequestBuilder<String>
+     */
+    open class func manualSearchPostWithRequestBuilder(manualSearchBeacon: ManualSearchBeacon? = nil) -> RequestBuilder<Void> {
+        let localVariablePath = "/manualSearch"
+        let localVariableURLString = gbAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: manualSearchBeacon)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = gbAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
 }
