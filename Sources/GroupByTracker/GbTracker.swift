@@ -10,7 +10,7 @@ public class GbTracker {
     private var shopperTracking: ShopperTracking
     private var nativeAppClient: NativeAppClient
     
-    public init(customerId: String, area: String, login: Login = Login(loggedIn: false, username: nil), urlPrefixOverride: String? = nil) {
+    public init(customerId: String, area: String, login: Login, urlPrefixOverride: String? = nil) {
         self.customerId = customerId
         self.area = area
         self.urlPrefixOverride = urlPrefixOverride

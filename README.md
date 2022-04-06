@@ -14,7 +14,7 @@ To import and use the tracker:
 import GroupByTracker
 
 // create the SDK instance
-let tracker = GbTracker(customerId: "customer_id", area: "area")
+let tracker = GbTracker(customerId: "customer_id", area: "area", login: Login(loggedIn: false, username: ""))
 
 // set the login data
 tracker.setLogin(login: Login(loggedIn: true, username: "shopper@example.com"))
