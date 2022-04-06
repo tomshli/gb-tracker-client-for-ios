@@ -4,9 +4,21 @@ This is the iOS SDK used to send beacons to GroupBy.
 
 ## Add package using Swift Package Manager
 
-Refer to <a href="https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app" target="_blank">Adding Package Dependencies to Your App</a> article from Apple
+1. From the Xcode menu click File > Swift Packages > Add Package Dependency.
 
-## Usage with Swift Package Manager
+2. In the dialog that appears, enter the repository URL: https://github.com/tomshli/gb-tracker-client-for-ios.git
+
+3. In Version, select Up to Next Major and take the default option.
+
+## Add package using CocoaPods
+
+Add the following dependencies to your podfile to include GroupBy Tracker Client into your app.
+
+```ruby
+pod 'GroupByTracker'
+```
+
+## Usage
 
 To import and use the tracker:
 
@@ -32,7 +44,7 @@ tracker.sendAddToCartEvent(addToCartBeacon: atcBeacon) { error in
         }
         
         // If there are data validation errors, a list of string with the error details will be returned.
-	// If there is a network or any other error, the code will contain the HTTP status code returned.
+	// If there is a network or any other error, the code variable will contain the HTTP status code returned.
         switch gbError {
             case .error(let code, let errorDetails, let innerError):
                 guard let errorDetails = errorDetails else {
@@ -70,7 +82,8 @@ The login data comes from the constructor call (allowing the SDK user to say “
 let tracker = GbTracker(customerId: "customer_id", area: "area", login: Login(loggedIn: true, username: "shopper@example.com"))
 
 // or
-let tracker = GbTracker(customerId: "customer_id", area: "area")
+let tracker = GbTracker(customerId: "customer_id", area: "area", login: Login(loggedIn: false, username: ""))
+
 ...
 tracker.setLogin(login: Login(loggedIn: true, username: "shopper@example.com"))
 ```
