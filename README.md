@@ -71,7 +71,7 @@ tracker.sendAddToCartEvent(addToCartBeacon: atcBeacon) { error in
 The constructor for the tracker client has an optional parameter for providing options:
 
 ```swift
-let tracker = GbTracker(customerId: "customer_id", area: "area", urlPrefixOverride: <some_url>) // Optional, overrides the URL the beacon is sent to. Useful for testing.
+let tracker = GbTracker(customerId: "customer_id", area: "area", login: Login(loggedIn: true, username: "shopper@example.com"), urlPrefixOverride: <some_url>) // Optional, overrides the URL the beacon is sent to. Useful for testing.
 ```
 
 ## Set Login Information
