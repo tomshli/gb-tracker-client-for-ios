@@ -7,6 +7,7 @@ Pod::Spec.new do |s|
     s.author           = { 'GroupBy Inc.' => 'support@groupbyinc.com' }
     s.source           = { :git => 'https://github.com/tomshli/gb-tracker-client-for-ios.git', :tag => s.version.to_s }
     s.ios.deployment_target = '13.0'
-    s.swift_version = '3.0'
+    s.swift_version = '4.0'
     s.source_files = 'Sources/GroupByTracker/**/*'
+    s.frameworks = 'UIKit'
   end
